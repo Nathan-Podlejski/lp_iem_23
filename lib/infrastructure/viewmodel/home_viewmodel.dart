@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spots_discovery/data/endpoint/spot_endpoint.dart';
 import 'package:spots_discovery/data/model/spot.dart';
+import 'package:dio/dio.dart';
 
 class HomeViewModel extends ChangeNotifier {
   final SpotEndpoint _spotEndpoint;
@@ -23,15 +25,17 @@ class HomeViewModel extends ChangeNotifier {
         .map((json) => Spot.fromJson(json))
         .toList();
     notifyListeners();
+    print(spots.toString());
   }
 
-  void loadMore() {
+  void loadMore() async {
     /// TODO
   }
 
   Spot getRandom() {
     /// TODO
-    return Spot(id: 0);
+    spots.shuffle();
+    return spots.first;
   }
 
   void navigateToDetail(BuildContext context) {
@@ -40,5 +44,9 @@ class HomeViewModel extends ChangeNotifier {
 
   void getSpotByName(String name) {
     /// TODO
+  }
+
+  List<Spot> getSpots() {
+    return spots;
   }
 }
